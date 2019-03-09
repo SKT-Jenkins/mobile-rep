@@ -7,7 +7,7 @@ pipeline {
    stages {
       stage('Demo') {
         steps {
-           hello('Sanjay')
+           hello 'Sanjay'
         }
       }
    }
