@@ -9,10 +9,10 @@ pipeline {
    options {
 		retry(3)
 	}
-   parameters {
+   /* parameters {
      string(name: 'user', defaultValue: 'John', description: 'A user that triggers the pipeline')
-     string(name: 'branch_nm', defaultValue: 'feature', description: 'Which branch to use?')
-   }
+     string(name: 'branch_nm', defaultValue: 'feature1', description: 'Which branch to use?')
+   } */
   tools {
 	   maven 'maven_v1'  
 	   gradle 'gradlu'
