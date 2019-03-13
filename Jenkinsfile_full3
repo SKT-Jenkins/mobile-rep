@@ -23,8 +23,8 @@ pipeline {
    }
 	stages {
 		stage ('build') {
-		echo "Pulling from branch - ${env.branch_name}"
-		   steps {	
+		   steps {
+		   echo "Pulling from branch - ${env.branch_name}"
             sh 'echo "A one line step"'
             sh ''' 
             echo '"A multiline step"'
