@@ -37,6 +37,13 @@ pipeline {
          }
 		}
 		stage ('test: integration-&-quality') {
+         input{
+		     message "Press Ok to continue"
+		     submitter "user1,user2"
+		     parameters {
+			      string(name:'username', defaultValue: 'user', description: 'Username of the user pressing Ok')
+		     }
+	      }
 			steps {	  
          // bat "mvn clean test -Dsuite=SMOKE_TEST -Denvironment=QA"
          // powershell ".\funcional_tests.ps1"
