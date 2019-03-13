@@ -42,10 +42,14 @@ pipeline {
          }
       }
 		stage ('approval') {
+		   steps {
 			sh 'echo "Approval stage"'
+		   }
 		}
 		stage ('deploy:prod') {
+		   steps {
 			sh 'echo "deploy stage"'
+		   }
 		}
 	}
 }
