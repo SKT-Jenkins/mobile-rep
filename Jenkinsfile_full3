@@ -43,14 +43,14 @@ pipeline {
          }
 		}
 		stage ('test: integration-&-quality') {
-         input{     
+         /* input{     
 		message "Should we continue?"
                 ok "Yes, we should."
                 submitter "${USER}"
                 parameters {
                     string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
                 }
-	      }
+	      } */
 			steps {	  
          // bat "mvn clean test -Dsuite=SMOKE_TEST -Denvironment=QA"
          // powershell ".\funcional_tests.ps1"
