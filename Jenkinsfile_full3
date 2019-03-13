@@ -24,7 +24,9 @@ pipeline {
    }
 	stages {
       stage ('Checkout Code') {
-         checkout([$class: 'GitSCM', branches: [[name: '*/${branch_nm}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '0f0682df-26dd-48f2-86d4-40e2b48eabc7', url: 'git@github.com:SKT-Jenkins/mobile-rep.git']]])
+         steps {
+            checkout([$class: 'GitSCM', branches: [[name: '*/${branch_nm}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '0f0682df-26dd-48f2-86d4-40e2b48eabc7', url: 'git@github.com:SKT-Jenkins/mobile-rep.git']]])
+         }
       }
 		stage ('build') {
 		   steps {
