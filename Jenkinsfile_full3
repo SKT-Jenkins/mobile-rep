@@ -1,0 +1,51 @@
+pipeline {
+	agent any
+	stages {
+		stage ('build') {
+		   steps {	  
+            sh 'echo "A one line step"'
+            sh ''' 
+            echo '"A multiline step"'
+            ls -lrt
+            '''
+            echo "Pipeline triggered by ${params.USER}"
+         }
+		}
+		stage ('test: integration-&-quality') {
+			steps {	  
+         bat "mvn clean test -Dsuite=SMOKE_TEST -Denvironment=QA"
+         powershell ".\funcional_tests.ps1"
+         echo "Scripted block"
+      }
+		}
+		stage ('test: functional') {
+			steps {
+         parallel(
+            a: {
+                echo "Tests on Linux"
+               },
+            b: {
+                echo "Tests on Windows"
+               }
+         )
+         }
+		}
+		stage('Run Tests') {
+               steps {
+                  bat "run-tests.bat"
+               }
+         }
+      
+      stage('Test On Linux') {
+         steps {
+            sh "run-tests.sh"
+         }
+      }
+		stage ('approval') {
+			sh 'echo "Approval stage"'
+		}
+		stage ('deploy:prod') {
+			sh 'echo "deploy stage"'
+		}
+	}
+}
