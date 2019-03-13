@@ -28,6 +28,7 @@ pipeline {
             echo '"A multiline step"'
             ls -lrt
             '''
+	    sh 'pwd'
             echo "Pipeline triggered by ${params.USER}"
 	    sh 'mvn --version'
          }
