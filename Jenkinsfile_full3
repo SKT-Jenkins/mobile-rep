@@ -28,7 +28,7 @@ pipeline {
 	stages {
       stage ('Checkout Code') {
          steps {
-	    hello.checkout_code(${branch_nm})
+	    hello.checkout_code("${branch_nm}")
           }
       }
 		stage ('build') {
