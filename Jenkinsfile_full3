@@ -10,8 +10,7 @@ pipeline {
      string(name: 'user', defaultValue: 'John', description: 'A user that triggers the pipeline')
    }
   tools {
-	   // maven 'apache-maven-3.0.1' 
-	   echo "Configure tools here"  
+	   maven 'apache-maven-3.0.1'  
    }
    triggers {
 	   //Execute weekdays every four hours starting at minute 0
