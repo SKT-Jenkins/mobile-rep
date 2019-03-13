@@ -20,7 +20,7 @@ pipeline {
      //Query repository weekdays every four hours starting at minute 0
      pollSCM('0 */4 * * 1-5')
      //Execute when either job1 or job2 are successful
-     upstream(upstreamProjects: 'job1, job2', threshold: hudson.model.Result.SUCCESS)
+     // upstream(upstreamProjects: 'job1, job2', threshold: hudson.model.Result.SUCCESS)
    }
 	stages {
       stage ('Checkout Code') {
@@ -46,7 +46,7 @@ pipeline {
          input{     
 		message "Should we continue?"
                 ok "Yes, we should."
-                submitter "alice,bob"
+                submitter "${USER}"
                 parameters {
                     string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
                 }
@@ -55,6 +55,7 @@ pipeline {
          // bat "mvn clean test -Dsuite=SMOKE_TEST -Denvironment=QA"
          // powershell ".\funcional_tests.ps1"
          echo "Scripted block - steps where scripts will be coded"
+             echo "Hello, ${PERSON}, nice to meet you."
       }
 		}
 		stage ('test: functional') {
