@@ -13,9 +13,9 @@ pipeline {
 		}
 		stage ('test: integration-&-quality') {
 			steps {	  
-         bat "mvn clean test -Dsuite=SMOKE_TEST -Denvironment=QA"
-         powershell ".\funcional_tests.ps1"
-         echo "Scripted block"
+         // bat "mvn clean test -Dsuite=SMOKE_TEST -Denvironment=QA"
+         // powershell ".\funcional_tests.ps1"
+         echo "Scripted block - steps where scripts will be coded"
       }
 		}
 		stage ('test: functional') {
