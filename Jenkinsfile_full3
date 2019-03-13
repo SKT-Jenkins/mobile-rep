@@ -11,7 +11,7 @@ pipeline {
    }
   tools {
 	   // maven 'apache-maven-3.0.1' 
-	   sh 'echo "Configure tools here"'   
+	   echo "Configure tools here"  
    }
    triggers {
 	   //Execute weekdays every four hours starting at minute 0
