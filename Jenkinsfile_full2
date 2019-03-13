@@ -41,7 +41,7 @@ pipeline {
 		   steps {	  
             sh 'echo "A one line step"'
             sh ''' 
-            echo "A multiline step"'
+            echo '"A multiline step"'
             ls -lrt
             '''
             echo "Pipeline triggered by ${params.USER}"
