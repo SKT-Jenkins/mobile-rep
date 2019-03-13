@@ -29,7 +29,7 @@ pipeline {
             ls -lrt
             '''
 	    sh 'pwd'
-            echo "Pipeline triggered by ${params.USER}"
+            echo "Pipeline triggered by ${USER}"
 	    sh 'mvn --version'
          }
 		}
