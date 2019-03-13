@@ -56,7 +56,7 @@ pipeline {
          powershell ".\funcional_tests.ps1"
          echo "Scripted block"
          script {
-	         echo "This is script"'
+	         echo '"This is script"'
          }
       }
 		}
