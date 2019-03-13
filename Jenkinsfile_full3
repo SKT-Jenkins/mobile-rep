@@ -32,6 +32,7 @@ pipeline {
 	    sh 'pwd'
             echo "Pipeline triggered by ${USER}"
 	    sh 'mvn --version'
+	    sh 'gradle --version'
          }
 		}
 		stage ('test: integration-&-quality') {
@@ -42,13 +43,17 @@ pipeline {
       }
 		}
 		stage ('test: functional') {
+		environment {
+		     INPUT_PATH_WIN = './inputs/windows'
+		     INPUT_PATH_LINUX = './inputs/linux'
+	        }
 			steps {
          parallel(
             a: {
-                echo "Tests on Linux"
+                echo "Tests on Linux with input ${INPUT_PATH_LINUX}"
                },
             b: {
-                echo "Tests on Windows"
+                echo "Tests on Windows with input ${INPUT_PATH_WIN}"
                }
          )
          }
