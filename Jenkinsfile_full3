@@ -29,7 +29,8 @@ pipeline {
       stage ('Checkout Code') {
          steps {
 	    script {
-	       hello.checkout_code("${branch_nm}")
+	       // hello.checkout_code("${branch_nm}")
+	       hello.call("Sanjay Tripathi")
 	    }
           }
       }
