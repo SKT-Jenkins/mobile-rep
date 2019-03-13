@@ -30,6 +30,9 @@ pipeline {
             '''
             echo "Pipeline triggered by ${params.USER}"
          }
+	 steps {
+                sh 'mvn --version'
+            }
 		}
 		stage ('test: integration-&-quality') {
 			steps {	  
