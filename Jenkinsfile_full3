@@ -109,15 +109,12 @@ pipeline {
       echo "                 BUILD PACKAGE "
       echo "============================================================================="
             // sh "run-tests.sh"
-	    echo "Tests on Linux"
          }
       }
 		stage ('Uploads') {
 	  parallel{
 			stage('Uploaded to Nexus') {
-                    agent {
-                        label "any"
-                    }
+                    agent any
                     steps {
       // echo "============================================================================="
       // echo "                 UPLOAD TO NEXUS AND HOCKEYAPP "
@@ -133,9 +130,7 @@ pipeline {
                     }
                 }
 		stage('Uploaded to HockeyApp') {
-                    agent {
-                        label "any"
-                    }
+                    agent any
                     steps {
                         // bat "run-tests.bat"
 			echo "Uploaded to HockeyApp script"
