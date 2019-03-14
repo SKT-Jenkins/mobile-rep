@@ -27,10 +27,10 @@ pipeline {
    }
 	stages {
       stage ('Checkout Code') {
+         steps {
       echo "============================================================================="
       echo "                 CHECKOUT CODE FROM REPOSITORY "
       echo "============================================================================="
-         steps {
 	    script {
 	       // hello.checkout_code("${branch_nm}")
 	       hello.call("Sanjay Tripathi")
