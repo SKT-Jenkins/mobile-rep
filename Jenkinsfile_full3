@@ -34,7 +34,7 @@ pipeline {
 	stages {
       stage ('Checkout Code') {
            when {
-	       pln = "${pipelineName}"
+	       // pln = "${pipelineName}"
                 // Only say hello if a "greeting" is requested
                 expression { params.REQUESTED_ACTION == 'greeting' }
 		// expression { pln == 'patchset' }
