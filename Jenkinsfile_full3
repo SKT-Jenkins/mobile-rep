@@ -16,7 +16,7 @@ pipeline {
      choice(
             choices: ['greeting' , 'silence'],
             description: 'Select type of pipeline',
-            name: 'PIPELINE_TYPE')
+            name: 'PIPELINE_NAME')
    }
   tools {
 	   maven 'maven_v1'  
@@ -34,13 +34,13 @@ pipeline {
       stage ('Checkout Code') {
            when {
                 // Run the stage depending on pipeline type
-                expression { params.PIPELINE_TYPE == 'silence' }
+                expression { params.PIPELINE_NAME == 'silence' }
             }
          steps {
       echo "============================================================================="
       echo "                 CHECKOUT CODE FROM REPOSITORY "
       echo "============================================================================="
-      echo "project pipeline name is ${pipelineName}"
+      echo "project pipeline name is ${PIPELINE_NAME}"
 	    script {
 	       // hello.checkout_code("${branch_nm}")
 	       hello.call("Sanjay Tripathi")
