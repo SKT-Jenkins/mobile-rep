@@ -36,7 +36,7 @@ pipeline {
            when {
 	       // pln = "${pipelineName}"
                 // Only say hello if a "greeting" is requested
-                expression { params.REQUESTED_ACTION == 'greeting' }
+                expression { params.REQUESTED_ACTION == 'silence' }
 		// expression { pln == 'patchset' }
             }
          steps {
