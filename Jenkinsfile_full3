@@ -31,7 +31,7 @@ pipeline {
 	    script {
 	       // hello.checkout_code("${branch_nm}")
 	       hello.call("Sanjay Tripathi")
-	       hello.getGitInfo("email")
+	       hello.getGitInfo("emails")
 	    }
           }
       }
