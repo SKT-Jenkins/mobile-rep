@@ -12,6 +12,8 @@ pipeline {
    parameters {
      string(name: 'user', defaultValue: 'John', description: 'A user that triggers the pipeline')
      string(name: 'branch_nm', defaultValue: 'feature1', description: 'Which branch to use?')
+     string(name: 'projectType', defaultValue: 'android', description: 'Which project type android or iOS?')
+     string(name: 'pipelineName', defaultValue: 'patchset', description: 'Type of pipeline?')
    }
   tools {
 	   maven 'maven_v1'  
