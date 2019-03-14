@@ -39,10 +39,10 @@ pipeline {
           }
       }
 		stage ('MR Check') {
+		   steps {
       echo "============================================================================="
       echo "                 MR Check for approvals "
       echo "============================================================================="
-		   steps {
 		   echo "Pulling from branch - ${env.branch_name}"
             sh 'echo "A one line step"'
             sh ''' 
@@ -56,9 +56,6 @@ pipeline {
          }
 		}
 		stage ('JIRA Notification') {
-      echo "============================================================================="
-      echo "                 JIRA Notification "
-      echo "============================================================================="
          /* input{     
 		message "Should we continue?"
                 ok "Yes, we should."
@@ -68,6 +65,9 @@ pipeline {
                 }
 	      } */
 			steps {	  
+      echo "============================================================================="
+      echo "                 JIRA Notification "
+      echo "============================================================================="
          // bat "mvn clean test -Dsuite=SMOKE_TEST -Denvironment=QA"
          // powershell ".\funcional_tests.ps1"
          echo "Scripted block - steps where scripts will be coded"
@@ -75,14 +75,14 @@ pipeline {
       }
 		}
 		stage ('Unit Test') {
-      echo "============================================================================="
-      echo "                 RUN UNIT TESTS "
-      echo "============================================================================="
 		environment {
 		     INPUT_PATH_WIN = './inputs/windows'
 		     INPUT_PATH_LINUX = './inputs/linux'
 	        }
 			steps {
+      echo "============================================================================="
+      echo "                 RUN UNIT TESTS "
+      echo "============================================================================="
          parallel(
             UnitTests: {
                 echo "Tests on Linux with input ${INPUT_PATH_LINUX}"
@@ -94,29 +94,29 @@ pipeline {
          }
 		}
 		stage('Sonar Static Code Analyis') {
+               steps {
       echo "============================================================================="
       echo "                 SONARQUBE STATIC CODE ANALYSIS "
       echo "============================================================================="
-               steps {
                   // bat "run-tests.bat"
 		  echo "Running tests"
                }
          }
       
       stage('Build Package') {
+         steps {
       echo "============================================================================="
       echo "                 BUILD PACKAGE "
       echo "============================================================================="
-         steps {
             // sh "run-tests.sh"
 	    echo "Tests on Linux"
          }
       }
 		stage ('Uploads') {
+		   steps {
       echo "============================================================================="
       echo "                 UPLOAD TO NEXUS AND HOCKEYAPP "
       echo "============================================================================="
-		   steps {
 			parallel(
             UploadNexus: {
                 echo "Uploaded to Nexus"
