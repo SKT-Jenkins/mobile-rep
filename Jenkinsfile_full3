@@ -29,6 +29,11 @@ pipeline {
    }
 	stages {
       stage ('Checkout Code') {
+           when {
+                // Only say hello if a "greeting" is requested
+                // expression { params.REQUESTED_ACTION == 'patchset' }
+		expression { "${pipelineName}" == 'patchset' }
+            }
          steps {
       echo "============================================================================="
       echo "                 CHECKOUT CODE FROM REPOSITORY "
