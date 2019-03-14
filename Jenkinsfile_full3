@@ -14,7 +14,7 @@ pipeline {
      string(name: 'branch_nm', defaultValue: 'feature1', description: 'Which branch to use?')
      string(name: 'projectType', defaultValue: 'android', description: 'Which project type android or iOS?')
      choice(
-            choices: ['greeting' , 'silence'],
+            choices: ['patchset' , 'integration', 'integration-release', 'feature', 'test'],
             description: 'Select type of pipeline',
             name: 'PIPELINE_NAME')
    }
@@ -34,7 +34,7 @@ pipeline {
       stage ('Checkout Code') {
            when {
                 // Run the stage depending on pipeline type
-                // expression { params.PIPELINE_NAME == 'silence' }
+                // expression { params.PIPELINE_NAME == 'patchset' }
 		expression { params.projectType == 'iOS' }
             }
          steps {
@@ -123,6 +123,9 @@ pipeline {
          }
       }
 		stage ('Uploads') {
+		when {
+		expression { params.projectType != 'test' }
+            }
 	  parallel{
 			stage('Uploaded to Nexus') {
                     agent any
