@@ -127,10 +127,5 @@ pipeline {
          )
 		   }
 		}
-		stage ('More ... missing ?') {
-		   steps {
-			sh 'echo "deploy stage"'
-		   }
-		}
 	}
 }
