@@ -124,7 +124,7 @@ pipeline {
       }
 		stage ('Uploads') {
 		when {
-		expression { params.projectType != 'test' }
+		expression { params.PIPELINE_NAME != 'test' }
             }
 	  parallel{
 			stage('Uploaded to Nexus') {
