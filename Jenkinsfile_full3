@@ -86,10 +86,10 @@ pipeline {
      // echo "                 RUN UNIT TESTS "
      // echo "============================================================================="
          parallel(
-            UnitTests: {
+            "Unit Tests": {
                 echo "Tests on Linux with input ${INPUT_PATH_LINUX}"
                },
-            LloydsUITest: {
+            "Lloyds UI Test": {
                 echo "Tests on Windows with input ${INPUT_PATH_WIN}"
                }
          )
