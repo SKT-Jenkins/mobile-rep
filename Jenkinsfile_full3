@@ -30,9 +30,10 @@ pipeline {
 	stages {
       stage ('Checkout Code') {
            when {
+	       pln = "${pipelineName}"
                 // Only say hello if a "greeting" is requested
                 // expression { params.REQUESTED_ACTION == 'patchset' }
-		expression { "${pipelineName}" == 'patchset' }
+		expression { pln == 'patchset' }
             }
          steps {
       echo "============================================================================="
