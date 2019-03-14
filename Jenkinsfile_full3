@@ -27,6 +27,9 @@ pipeline {
    }
 	stages {
       stage ('Checkout Code') {
+      echo "============================================================================="
+      echo "                 CHECKOUT CODE FROM REPOSITORY "
+      echo "============================================================================="
          steps {
 	    script {
 	       // hello.checkout_code("${branch_nm}")
@@ -35,7 +38,10 @@ pipeline {
 	    }
           }
       }
-		stage ('build') {
+		stage ('MR Check') {
+      echo "============================================================================="
+      echo "                 MR Check for approvals "
+      echo "============================================================================="
 		   steps {
 		   echo "Pulling from branch - ${env.branch_name}"
             sh 'echo "A one line step"'
@@ -49,7 +55,10 @@ pipeline {
 	    sh 'gradle --version'
          }
 		}
-		stage ('test: integration-&-quality') {
+		stage ('JIRA Notification') {
+      echo "============================================================================="
+      echo "                 JIRA Notification "
+      echo "============================================================================="
          /* input{     
 		message "Should we continue?"
                 ok "Yes, we should."
@@ -65,41 +74,60 @@ pipeline {
              echo "Hello nice to meet you."
       }
 		}
-		stage ('test: functional') {
+		stage ('Unit Test') {
+      echo "============================================================================="
+      echo "                 RUN UNIT TESTS "
+      echo "============================================================================="
 		environment {
 		     INPUT_PATH_WIN = './inputs/windows'
 		     INPUT_PATH_LINUX = './inputs/linux'
 	        }
 			steps {
          parallel(
-            a: {
+            UnitTests: {
                 echo "Tests on Linux with input ${INPUT_PATH_LINUX}"
                },
-            b: {
+            LloydsUITest: {
                 echo "Tests on Windows with input ${INPUT_PATH_WIN}"
                }
          )
          }
 		}
-		stage('Run Tests') {
+		stage('Sonar Static Code Analyis') {
+      echo "============================================================================="
+      echo "                 SONARQUBE STATIC CODE ANALYSIS "
+      echo "============================================================================="
                steps {
                   // bat "run-tests.bat"
 		  echo "Running tests"
                }
          }
       
-      stage('Test On Linux') {
+      stage('Build Package') {
+      echo "============================================================================="
+      echo "                 BUILD PACKAGE "
+      echo "============================================================================="
          steps {
             // sh "run-tests.sh"
 	    echo "Tests on Linux"
          }
       }
-		stage ('approval') {
+		stage ('Uploads') {
+      echo "============================================================================="
+      echo "                 UPLOAD TO NEXUS AND HOCKEYAPP "
+      echo "============================================================================="
 		   steps {
-			sh 'echo "Approval stage"'
+			parallel(
+            UploadNexus: {
+                echo "Uploaded to Nexus"
+               },
+            UploadHockeyApp: {
+                echo "Uploaded to HockeyApp"
+               }
+         )
 		   }
 		}
-		stage ('deploy:prod') {
+		stage ('More ... missing ?') {
 		   steps {
 			sh 'echo "deploy stage"'
 		   }
