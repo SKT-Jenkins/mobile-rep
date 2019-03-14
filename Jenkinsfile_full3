@@ -34,7 +34,8 @@ pipeline {
       stage ('Checkout Code') {
            when {
                 // Run the stage depending on pipeline type
-                expression { params.PIPELINE_NAME == 'silence' }
+                // expression { params.PIPELINE_NAME == 'silence' }
+		expression { params.projectType == 'iOS' }
             }
          steps {
       echo "============================================================================="
