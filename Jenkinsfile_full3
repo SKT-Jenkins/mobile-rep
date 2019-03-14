@@ -116,7 +116,7 @@ pipeline {
 	  parallel{
 			stage('Uploaded to Nexus') {
                     agent {
-                        label "windows"
+                        label "any"
                     }
                     steps {
       // echo "============================================================================="
@@ -134,7 +134,7 @@ pipeline {
                 }
 		stage('Uploaded to HockeyApp') {
                     agent {
-                        label "ha"
+                        label "any"
                     }
                     steps {
                         // bat "run-tests.bat"
