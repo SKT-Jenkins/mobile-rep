@@ -117,14 +117,38 @@ pipeline {
       // echo "============================================================================="
       // echo "                 UPLOAD TO NEXUS AND HOCKEYAPP "
       // echo "============================================================================="
-			parallel(
-            UploadNexus: {
-                echo "Uploaded to Nexus"
-               },
-            UploadHockeyApp: {
-                echo "Uploaded to HockeyApp"
-               }
-         )
+	  parallel{
+			stage('Uploaded to Nexus') {
+                    agent {
+                        label "windows"
+                    }
+                    steps {
+                        // bat "run-tests.bat"
+			echo "Uploaded to Nexus script"
+                    }
+                    post {
+                        always {
+                            // junit "**/TEST-*.xml"
+			    echo "Post Nexus upload Results"
+                        }
+                    }
+                }
+		stage('Uploaded to HockeyApp') {
+                    agent {
+                        label "ha"
+                    }
+                    steps {
+                        // bat "run-tests.bat"
+			echo "Uploaded to HockeyApp script"
+                    }
+                    post {
+                        always {
+                            // junit "**/TEST-*.xml"
+			    echo "Post HockeyApp upload Results"
+                        }
+                    }
+                }	
+         } // end parallel
 		   }
 		}
 	}
