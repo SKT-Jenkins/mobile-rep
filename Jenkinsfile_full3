@@ -113,16 +113,15 @@ pipeline {
          }
       }
 		stage ('Uploads') {
-		   steps {
-      // echo "============================================================================="
-      // echo "                 UPLOAD TO NEXUS AND HOCKEYAPP "
-      // echo "============================================================================="
 	  parallel{
 			stage('Uploaded to Nexus') {
                     agent {
                         label "windows"
                     }
                     steps {
+      // echo "============================================================================="
+      // echo "                 UPLOAD TO NEXUS AND HOCKEYAPP "
+      // echo "============================================================================="
                         // bat "run-tests.bat"
 			echo "Uploaded to Nexus script"
                     }
@@ -149,7 +148,6 @@ pipeline {
                     }
                 }	
          } // end parallel
-		   }
 		}
 	}
 }
