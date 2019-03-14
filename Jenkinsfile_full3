@@ -38,6 +38,7 @@ pipeline {
       echo "============================================================================="
       echo "                 CHECKOUT CODE FROM REPOSITORY "
       echo "============================================================================="
+      echo "project pipeline name is ${pipelineName}"
 	    script {
 	       // hello.checkout_code("${branch_nm}")
 	       hello.call("Sanjay Tripathi")
