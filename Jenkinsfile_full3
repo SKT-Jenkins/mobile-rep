@@ -140,6 +140,14 @@ pipeline {
                         always {
                             // junit "**/TEST-*.xml"
 			    echo "Post Nexus upload Results"
+			    slackSend(color: "#FFFF00", message: "Always YELLOW status message")
+                        }
+			success {
+                           slackSend(color: "#00FF00", message: "Success GREEN status message")
+                        }
+                        // triggered when red sign
+                        failure {
+                           slackSend(color: "#FF0000", message: "Failure RED status message")
                         }
                     }
                 }
