@@ -1,0 +1,162 @@
+pipeline {
+	agent any
+	libraries {
+           lib('demo-lib@master')
+        }
+	environment {
+		OUTPUT_PATH = './outputs/'
+	}
+   options {
+		retry(3)
+	}
+   parameters {
+     string(name: 'user', defaultValue: 'John', description: 'A user that triggers the pipeline')
+     string(name: 'branch_nm', defaultValue: 'feature1', description: 'Which branch to use?')
+     string(name: 'projectType', defaultValue: 'android', description: 'Which project type android or iOS?')
+     choice(
+            choices: ['patchset' , 'integration', 'integration-release', 'feature', 'test'],
+            description: 'Select type of pipeline',
+            name: 'PIPELINE_NAME')
+   }
+  tools {
+	   maven 'maven_v1'  
+	   gradle 'gradlu'
+   }
+   triggers {
+	   //Execute weekdays every four hours starting at minute 0
+     // cron('0 */4 * * 1-5')
+     //Query repository weekdays every four hours starting at minute 0
+     pollSCM('0 */4 * * 1-5')
+     //Execute when either job1 or job2 are successful
+     // upstream(upstreamProjects: 'job1, job2', threshold: hudson.model.Result.SUCCESS)
+   }
+	stages {
+      stage ('Checkout Code') {
+           when {
+                // Run the stage depending on pipeline type
+                // expression { params.PIPELINE_NAME == 'patchset' }
+		expression { params.projectType == 'iOS' }
+            }
+         steps {
+      echo "============================================================================="
+      echo "                 CHECKOUT CODE FROM REPOSITORY "
+      echo "============================================================================="
+      echo "project pipeline name is ${PIPELINE_NAME}"
+	    script {
+	       // hello.checkout_code("${branch_nm}")
+	       hello.call("Sanjay Tripathi")
+	       hello.getGitInfo("emails")
+	    }
+          }
+      }
+		stage ('MR Check') {
+		   steps {
+      echo "============================================================================="
+      echo "                 MR Check for approvals "
+      echo "============================================================================="
+		   echo "Pulling from branch - ${env.branch_name}"
+            sh 'echo "A one line step"'
+            sh ''' 
+            echo '"A multiline step"'
+            ls -lrt
+            '''
+	    sh 'pwd'
+            echo "Pipeline triggered by ${USER}"
+	    sh 'mvn --version'
+	    sh 'gradle --version'
+         }
+		}
+		stage ('JIRA Notification') {
+         /* input{     
+		message "Should we continue?"
+                ok "Yes, we should."
+                submitter "${USER}"
+                parameters {
+                    string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+                }
+	      } */
+			steps {	  
+      echo "============================================================================="
+      echo "                 JIRA Notification "
+      echo "============================================================================="
+         // bat "mvn clean test -Dsuite=SMOKE_TEST -Denvironment=QA"
+         // powershell ".\funcional_tests.ps1"
+         echo "Scripted block - steps where scripts will be coded"
+             echo "Hello nice to meet you."
+      }
+		}
+		stage ('Unit Test') {
+		environment {
+		     INPUT_PATH_WIN = './inputs/windows'
+		     INPUT_PATH_LINUX = './inputs/linux'
+	        }
+			steps {
+     // echo "============================================================================="
+     // echo "                 RUN UNIT TESTS "
+     // echo "============================================================================="
+         parallel(
+            "Unit Tests": {
+                echo "Tests on Linux with input ${INPUT_PATH_LINUX}"
+               },
+            "Lloyds UI Test": {
+                echo "Tests on Windows with input ${INPUT_PATH_WIN}"
+               }
+         )
+         }
+		}
+		stage('Sonar Static Code Analyis') {
+               steps {
+      echo "============================================================================="
+      echo "                 SONARQUBE STATIC CODE ANALYSIS "
+      echo "============================================================================="
+                  // bat "run-tests.bat"
+		  echo "Running tests"
+               }
+         }
+      
+      stage('Build Package') {
+         steps {
+      echo "============================================================================="
+      echo "                 BUILD PACKAGE "
+      echo "============================================================================="
+            // sh "run-tests.sh"
+         }
+      }
+		stage ('Uploads') {
+		when {
+		expression { params.PIPELINE_NAME != 'test' || params.projectType ==~ /(?i)(IOS|XYZ)/ }
+            }
+	  parallel{
+			stage('Uploaded to Nexus') {
+                    agent any
+                    steps {
+      // echo "============================================================================="
+      // echo "                 UPLOAD TO NEXUS AND HOCKEYAPP "
+      // echo "============================================================================="
+                        // bat "run-tests.bat"
+			echo "Uploaded to Nexus script"
+                    }
+                    post {
+                        always {
+                            // junit "**/TEST-*.xml"
+			    echo "Post Nexus upload Results"
+                        }
+                    }
+                }
+		stage('Uploaded to HockeyApp') {
+                    agent any
+                    steps {
+                        // bat "run-tests.bat"
+			echo "Uploaded to HockeyApp script"
+                    }
+                    post {
+                        always {
+                            // junit "**/TEST-*.xml"
+			    echo "Post HockeyApp upload Results"
+                        }
+                    }
+                }	
+         } // end parallel
+		}
+	}
+}
